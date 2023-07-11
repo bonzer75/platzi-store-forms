@@ -21,6 +21,7 @@ export class BasicFormComponent implements OnInit {
   timefield = new FormControl('');
   searchField = new FormControl('');
   descriptionField = new FormControl('');
+  categoryField = new FormControl('');
 
   constructor() { }
 
