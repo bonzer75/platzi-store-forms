@@ -26,4 +26,6 @@ export class MyValidators {
     return null
   }
 
+  static matchPasswords()
+
 }
