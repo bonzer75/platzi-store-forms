@@ -1,7 +1,7 @@
 <form [formGroup]="form">
-    <p>
+    <p formGroupName="fullname">
         Name: {{ nameField.value }}
-        <input type="text" formControlName="form.get('name')"/>
+        <input type="text" formControlName="form.get('fullname.name')"/>
         <button [disabled]="nameField.invalid" (click)="getNameValue()">Get value</button>
         <strong *ngIf="isNameFieldInvalid">
             Llena el formulario</strong>

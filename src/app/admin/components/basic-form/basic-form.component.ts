@@ -18,7 +18,10 @@ export class BasicFormComponent implements OnInit {
 
   private buildForm() {
     this.form = this.builder.group({
-      name: ["", Validators.required, Validators.maxLength(10)],
+      fullname: this.builder.group({
+        name: ["", Validators.required, Validators.maxLength(10)],
+        surname: ["", Validators.required, Validators.maxLength(10)]
+      }),
       email: [''],
       phone: [''],
       color: ['#000000'],
@@ -45,7 +48,7 @@ export class BasicFormComponent implements OnInit {
   }
 
   get nameField() {
-    return this.form.get('name');
+    return this.form.get('fullname.name')
   }
 
   get isNameFieldValid() {
