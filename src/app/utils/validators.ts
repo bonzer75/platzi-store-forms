@@ -11,4 +11,19 @@ export class MyValidators {
     return null;
   }
 
+  static isPassValid(control: AbstractControl) {
+    const value = control.value.split('');
+    const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+
+    const hasNumbers = numbers.every(num => {
+      return value.includes(num);
+    });
+
+    if(!hasNumbers) {
+      return { invalid_password: true }
+    }
+
+    return null
+  }
+
 }
