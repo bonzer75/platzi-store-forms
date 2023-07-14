@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { FormControl, Validators, FormGroup, FormBuilder, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-basic-form',
@@ -8,35 +8,23 @@ import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms'
 })
 export class BasicFormComponent implements OnInit {
 
-  form: FormGroup
+  form: FormGroup;
 
   constructor(
-    private builder: FormBuilder
-  ) { 
-    this.buildForm()
-  }
-
-  private buildForm() {
-    this.form = this.builder.group({
-      fullname: this.builder.group({
-        name: ["", Validators.required, Validators.maxLength(10)],
-        surname: ["", Validators.required, Validators.maxLength(10)]
-      }),
-      email: [''],
-      phone: [''],
-      color: ['#000000'],
-      date: [''],
-      age: [18],
-      category: [''],
-      tag: [''],
-      agree: [false],
-      gender: [''],
-      zone: [''],
-    }); 
+    private formBuilder: FormBuilder
+  ) {
+    this.buildForm();
   }
 
   ngOnInit(): void {
-    //
+    // this.nameField.valueChanges
+    // .subscribe(value => {
+    //   console.log(value);
+    // });
+    // this.form.valueChanges
+    // .subscribe(value => {
+    //   console.log(value);
+    // });
   }
 
   getNameValue() {
@@ -44,11 +32,38 @@ export class BasicFormComponent implements OnInit {
   }
 
   save(event) {
-    console.log(this.form.value);
+    if (this.form.valid){
+      console.log(this.form.value);
+    } else {
+      this.form.markAllAsTouched();
+    }
+  }
+
+  private buildForm() {
+    this.form = this.formBuilder.group({
+      fullName: this.formBuilder.group({
+        name: ['', [Validators.required, Validators.maxLength(10), Validators.pattern(/^[a-zA-Z ]+$/)]],
+        last: ['', [Validators.required, Validators.maxLength(10), Validators.pattern(/^[a-zA-Z ]+$/)]]
+      }),
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', Validators.required],
+      color: ['#000000'],
+      date: [''],
+      age: [18, [Validators.required, Validators.min(18), Validators.max(100)]],
+      category: [''],
+      tag: [''],
+      agree: [false, [Validators.requiredTrue]],
+      gender: [''],
+      zone: [''],
+    });
   }
 
   get nameField() {
-    return this.form.get('fullname.name')
+    return this.form.get('fullName.name');
+  }
+
+  get lastField() {
+    return this.form.get('fullName.last');
   }
 
   get isNameFieldValid() {
